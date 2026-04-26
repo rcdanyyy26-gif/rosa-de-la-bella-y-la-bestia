@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pétalo de Rosa Cayendo - Rotación 3D</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="ambient-shadow"></div>
+    <div class="light-beam"></div>
+    <div class="light-source"></div>
+    <div class="cristal">
+        <div class="base"></div>
+    </div>
+    <div id="talloc">
+        <img id="tallo" src="tallo.svg" alt="Tallo de rosa">
+    </div>
+
+    <!-- Audio -->
+    <audio id="bgAudio" muted>
+        <source src="sound/Mystery.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Scripts -->
+    <script src="config.js"></script>
+    <script src="GlassEffects.js"></script>
+    <script src="PetalPhysics.js"></script>
+    <script src="main.js"></script>
+    
+    <!-- Script para reproducir audio -->
+    <script>
+        const audio = document.getElementById('bgAudio');
+        
+        // Intenta reproducir automáticamente
+        audio.play().catch(() => {
+            // Si autoplay falla, reproducir al primer click
+            document.addEventListener('click', function playAudio() {
+                audio.muted = false;
+                audio.play();
+                document.removeEventListener('click', playAudio);
+            }, { once: true });
+        });
+        
+        // Cuando el audio esté listo, desactivar mute
+        audio.addEventListener('play', () => {
+            setTimeout(() => {
+                audio.muted = false;
+            }, 500);
+        });
+    </script>
+</body>
+<div class="description">
+    <span> El tiempo se acaba, los pétalos siguen cayendo.</span>
+</div>
+
+</html>
+
+
+
+

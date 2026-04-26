@@ -56,6 +56,60 @@
 </body>
 <div class="description">
     <span> El tiempo se acaba, los pétalos siguen cayendo.</span>
+    <script>
+    // Crear y animar pétalos
+    function crearPetalo() {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        
+        // Posición aleatoria en X
+        const startX = Math.random() * window.innerWidth;
+        const size = Math.random() * 20 + 10; // Entre 10px y 30px
+        const duration = Math.random() * 3 + 4; // Entre 4s y 7s
+        const delay = Math.random() * 2; // Retraso aleatorio
+        const rotation = Math.random() * 360;
+        const swayAmount = Math.random() * 100 - 50; // Movimiento horizontal aleatorio
+        
+        petal.style.cssText = `
+            width: ${size}px;
+            height: ${size}px;
+            left: ${startX}px;
+            top: -50px;
+            background: radial-gradient(circle, #ff6498 0%, #ff1493 100%);
+            border-radius: 50% 0;
+            animation: caerPetal ${duration}s linear ${delay}s infinite;
+            --sway: ${swayAmount}px;
+        `;
+        
+        document.body.appendChild(petal);
+    }
+    
+    // Agregar estilos de animación
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes caerPetal {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) translateX(var(--sway)) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Crear pétalos iniciales
+    for (let i = 0; i < 15; i++) {
+        crearPetalo();
+    }
+    
+    // Crear nuevos pétalos continuamente
+    setInterval(() => {
+        crearPetalo();
+    }, 800);
+</script>
 </div>
 
 </html>

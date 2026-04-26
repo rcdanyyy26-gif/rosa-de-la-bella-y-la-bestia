@@ -18,37 +18,41 @@
     </div>
 
     <!-- Audio -->
-    <audio id="bgAudio" autoplay loop>
-        <source src="Mystery.mp3" type="audio/mpeg">
-    </audio>
+<audio id="bgAudio" loop>
+    <source src="Mystery.mp3" type="audio/mpeg">
+</audio>
 
-    <!-- Scripts -->
-    <script src="config.js"></script>
-    <script src="GlassEffects.js"></script>
-    <script src="PetalPhysics.js"></script>
-    <script src="main.js"></script>
+<script>
+    const audio = document.getElementById('bgAudio');
     
-    <!-- Script para reproducir audio -->
-    <script>
-        const audio = document.getElementById('bgAudio');
+    // Función para iniciar reproducción
+    function playAudio() {
+        audio.volume = 1; // Volumen al máximo
+        const playPromise = audio.play();
         
-        // Intenta reproducir automáticamente
-        audio.play().catch(() => {
-            // Si autoplay falla, reproducir al primer click
-            document.addEventListener('click', function playAudio() {
-                audio.muted = false;
-                audio.play();
-                document.removeEventListener('click', playAudio);
-            }, { once: true });
-        });
-        
-        // Cuando el audio esté listo, desactivar mute
-        audio.addEventListener('play', () => {
-            setTimeout(() => {
-                audio.muted = false;
-            }, 500);
-        });
-    </script>
+        if (playPromise !== undefined) {
+            playPromise
+                .then(() => {
+                    console.log('Audio reproduciéndose');
+                    document.removeEventListener('click', playAudio);
+                    document.removeEventListener('touchstart', playAudio);
+                })
+                .catch((error) => {
+                    console.log('Error al reproducir:', error);
+                });
+        }
+    }
+    
+    // Reproducir al primer click/touch del usuario
+    document.addEventListener('click', playAudio, { once: false });
+    document.addEventListener('touchstart', playAudio, { once: false });
+    
+    // Intentar reproducir cuando se carga la página (en caso de que el navegador lo permita)
+    window.addEventListener('load', () => {
+        playAudio();
+    });
+</script>
+    
 </body>
 <div class="description">
     <span> El tiempo se acaba, los pétalos siguen cayendo.</span>
